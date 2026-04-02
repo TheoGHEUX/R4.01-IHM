@@ -47,6 +47,12 @@
       "nom": "Tarte tropézienne",
       "description": "Brioche à la crème pâtissière vanillée",
       "prix": 5.5
+    },
+    {
+      "id": 9,
+      "nom": "Blanquette de veau",
+      "description": "Veau mijoté à la crème et aux champignons",
+      "prix": 13
     }
   ],
   "utilisateurs": [

@@ -1,7 +1,18 @@
-hello <br>
+<?php
+$pageTitle = "IHM – Livraison de repas";
+$logoPath = "/assets/logo.png";
+require __DIR__ . '/../templates/header.php';
+?>
 
-<a href="plats.php">Voir les plats</a><br>
+    <section class="card">
+        <h1>Accueil</h1>
+        <p>Choisis une ressource à consulter :</p>
 
-<a href="commandes.php">Voir les commandes</a><br>
+        <div class="actions">
+            <a class="btn" href="/plats.php">Consulter les plats</a>
+            <a class="btn" href="/menus.php">Consulter les menus</a>
+            <a class="btn" href="/commandes.php">Consulter les commandes</a>
+        </div>
+    </section>
 
-<a href="menus.php">Voir les menus</a>
+<?php require __DIR__ . '/../templates/footer.php'; ?>

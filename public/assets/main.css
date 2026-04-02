@@ -1,0 +1,165 @@
+
+:root{
+    --brand-bg: #f97316;
+    --brand-bg-dark: #c2410c;
+    --brand-text: #ffffff;
+    --page-bg: #fff7ed;
+    --card-bg: #ffffff;
+    --border: #fed7aa;
+}
+
+html, body{
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    background: var(--page-bg);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header */
+/* ===== Header ===== */
+.site-header{
+    background: linear-gradient(90deg, var(--brand-bg), var(--brand-bg-dark));
+    border-top: 0;
+    border-bottom: 1px solid rgba(255,255,255,0.15);
+    color: var(--brand-text);
+}
+
+.site-header__inner{
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    justify-content: flex-start; /* le brand reste à gauche */
+}
+
+/* Brand (logo + titre) */
+.site-brand{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--brand-text);
+    text-decoration: none;
+    flex: 0 0 auto; /* ne se fait pas écraser */
+}
+
+.site-brand__logo{
+    width: 44px;
+    height: 44px;
+    object-fit: contain;
+    background: rgba(255,255,255,0.12);
+    border-radius: 10px;
+    padding: 6px;
+}
+
+.site-brand__title{
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+}
+
+/* Bouton retour (à droite du header) */
+.site-header__back{
+    margin-left: auto;   /* pousse le bouton complètement à droite */
+    white-space: nowrap; /* évite le retour à la ligne sur "← Retour" */
+}
+
+.btn--ghost{
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.55);
+    color: #fff;
+}
+
+.btn--ghost:hover{
+    background: rgba(255,255,255,0.14);
+    border-color: rgba(255,255,255,0.75);
+    color: #fff;
+}
+
+/* Main */
+.site-main{
+    max-width: 1000px;
+    margin: 18px auto;
+    padding: 0 18px;
+    flex: 1 0 auto;
+}
+
+/* Simple card + buttons */
+.card{
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px;
+}
+
+.actions{
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 12px;
+}
+
+.btn{
+    display: inline-block;
+    padding: 10px 14px;
+    border-radius: 10px;
+    background: var(--brand-bg);
+    color: #fff;
+    text-decoration: none;
+}
+
+.btn:hover{
+    background: var(--brand-bg-dark);
+    text-decoration: none;
+    color: #fff;
+}
+
+/* Footer */
+.site-footer{
+    border-top: 1px solid var(--border);
+    background: #fff;
+}
+
+.site-header__inner{
+    max-width: 10000px;
+    margin: 0 auto;
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    justify-content: flex-start;
+}
+
+.site-footer__text{
+    margin: 0;
+    text-align: center;
+    color: #7c2d12;
+    font-size: 14px;
+}
+
+/* plats */
+
+.table{
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 12px;
+}
+
+.table th, .table td{
+    border-bottom: 1px solid var(--border);
+    padding: 10px 8px;
+    text-align: left;
+    vertical-align: top;
+}
+
+.table th{
+    font-weight: 600;
+}
