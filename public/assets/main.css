@@ -145,7 +145,7 @@ body{
     font-size: 14px;
 }
 
-/* plats */
+/* Tableaux */
 
 .table{
     width: 100%;
@@ -162,4 +162,50 @@ body{
 
 .table th{
     font-weight: 600;
+}
+
+/* créer menus */
+
+.form__row{
+    display: grid;
+    gap: 6px;
+    margin-top: 12px;
+}
+
+.form__row input, .form__row select{
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font: inherit;
+}
+
+.form__choices{
+    display: grid;
+    gap: 8px;
+    padding: 10px 0;
+}
+
+.choice{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.form__actions{
+    display: flex;
+    gap: 10px;
+    margin-top: 14px;
+    flex-wrap: wrap;
+}
+
+.alert{
+    border-radius: 12px;
+    padding: 12px 14px;
+    margin-top: 12px;
+}
+
+.alert--error{
+    border: 1px solid #fecaca;
+    background: #fef2f2;
+    color: #991b1b;
 }

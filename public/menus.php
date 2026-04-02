@@ -5,27 +5,25 @@ $logoPath = "/assets/logo.png";
 require __DIR__ . '/../templates/header.php';
 
 $config = require __DIR__ . '/../src/config.php';
-require __DIR__ . '/../src/http.php';
+
+require_once __DIR__ . '/../src/Support/helpers.php';
+require_once __DIR__ . '/../src/Api/JsonApi.php';
+require_once __DIR__ . '/../src/View/formatters.php';
 
 $baseUrl = $config['services']['menus'];
 $timeout = $config['http']['timeout'];
 
-$url = $baseUrl . '/menus';
-$result = http_get($url, $timeout);
+$res = api_get_json($baseUrl . '/menus', $timeout);
 
-if (!$result['ok']) {
-    echo '<section class="card"><h1>Erreur</h1><p>Erreur cURL: ' . htmlspecialchars($result['error']) . '</p></section>';
+if (!$res['ok']) {
+    echo '<section class="card"><h1>Erreur</h1><p>Erreur API: ' . h($res['error']) . '</p></section>';
     require __DIR__ . '/../templates/footer.php';
     exit;
 }
 
-$decoded = json_decode($result['body'], true);
-if (!is_array($decoded)) {
-    echo '<section class="card"><h1>Erreur</h1><p>Réponse JSON invalide.</p><pre>' . htmlspecialchars($result['body']) . '</pre></section>';
-    require __DIR__ . '/../templates/footer.php';
-    exit;
-}
+$decoded = $res['data'];
 
+// Accepte: [ ... ] ou { "menus": [ ... ] }
 if (array_is_list($decoded)) {
     $menus = $decoded;
 } else {
@@ -33,63 +31,58 @@ if (array_is_list($decoded)) {
 }
 
 if (!is_array($menus)) {
-    echo '<section class="card"><h1>Erreur</h1><p>Format inattendu : menus introuvables.</p><pre>' . htmlspecialchars($result['body']) . '</pre></section>';
+    echo '<section class="card"><h1>Erreur</h1><p>Format inattendu : menus introuvables.</p></section>';
     require __DIR__ . '/../templates/footer.php';
     exit;
 }
 
-function format_plats(array $plats): string {
-    if ($plats === []) return '—';
-    $items = [];
-    foreach ($plats as $p) {
-        if (!is_array($p)) continue;
-        $nom = $p['nom'] ?? ('Plat #' . ($p['id'] ?? '—'));
-        $prix = $p['prix'] ?? null;
-        $chunk = $nom;
-        if ($prix !== null) $chunk .= ' (' . $prix . ' €)';
-        $items[] = $chunk;
-    }
-    return htmlspecialchars(implode(' ; ', $items), ENT_QUOTES, 'UTF-8');
-}
-
 ?>
+    <a class="btn" href="/menu-create.php">+ Créer un menu</a>
+
     <section class="card">
         <h1>Menus</h1>
 
         <table class="table">
             <thead>
             <tr>
-                <th>ID</th>
                 <th>Nom</th>
                 <th>Créateur</th>
                 <th>Date création</th>
                 <th>Dernière MAJ</th>
                 <th>Plats</th>
                 <th>Total</th>
+                <th>Actions</th>
             </tr>
             </thead>
             <tbody>
             <?php foreach ($menus as $menu): ?>
                 <tr>
-                    <td><?= htmlspecialchars((string)($menu['id'] ?? '—'), ENT_QUOTES, 'UTF-8') ?></td>
-                    <td><?= htmlspecialchars((string)($menu['nom'] ?? '—'), ENT_QUOTES, 'UTF-8') ?></td>
+                    <td><?= h((string)($menu['nom'] ?? '—')) ?></td>
                     <td>
                         <?php
                         $createurNom = $menu['createurNom'] ?? '—';
                         $createurId  = $menu['createurId'] ?? null;
                         $txt = (string)$createurNom;
                         if ($createurId !== null) $txt .= ' (#' . $createurId . ')';
-                        echo htmlspecialchars($txt, ENT_QUOTES, 'UTF-8');
+                        echo h($txt);
                         ?>
                     </td>
-                    <td><?= htmlspecialchars((string)($menu['dateCreation'] ?? '—'), ENT_QUOTES, 'UTF-8') ?></td>
-                    <td><?= htmlspecialchars((string)($menu['dateMiseAJour'] ?? '—'), ENT_QUOTES, 'UTF-8') ?></td>
+                    <td><?= h((string)($menu['dateCreation'] ?? '—')) ?></td>
+                    <td><?= h((string)($menu['dateMiseAJour'] ?? '—')) ?></td>
                     <td><?= format_plats($menu['plats'] ?? []) ?></td>
                     <td>
                         <?php
                         $total = $menu['prixTotal'] ?? null;
-                        echo $total === null ? '—' : htmlspecialchars((string)$total, ENT_QUOTES, 'UTF-8') . ' €';
+                        echo $total === null ? '—' : h((string)$total) . ' €';
                         ?>
+                    </td>
+                    <td>
+                        <?php $id = (string)($menu['id'] ?? ''); ?>
+                        <?php if ($id !== ''): ?>
+                            <a class="btn btn--ghost" href="/menu-edit.php?id=<?= h($id) ?>">Modifier</a>
+                        <?php else: ?>
+                            —
+                        <?php endif; ?>
                     </td>
                 </tr>
             <?php endforeach; ?>

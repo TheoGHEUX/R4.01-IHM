@@ -7,6 +7,8 @@ require __DIR__ . '/../templates/header.php';
 $config = require __DIR__ . '/../src/config.php';
 require __DIR__ . '/../src/http.php';
 
+require_once __DIR__ . '/../src/Support/helpers.php';
+
 $baseUrl = $config['services']['plats-utilisateurs'];
 $timeout = $config['http']['timeout'];
 
@@ -14,14 +16,14 @@ $url = $baseUrl . '/plats';
 $result = http_get($url, $timeout);
 
 if (!$result['ok']) {
-    echo '<section class="card"><h1>Erreur</h1><p>Erreur cURL: ' . htmlspecialchars($result['error']) . '</p></section>';
+    echo '<section class="card"><h1>Erreur</h1><p>Erreur cURL: ' . h($result['error']) . '</p></section>';
     require __DIR__ . '/../templates/footer.php';
     exit;
 }
 
 $data = json_decode($result['body'], true);
 if (!is_array($data)) {
-    echo '<section class="card"><h1>Erreur</h1><p>Réponse JSON invalide.</p><pre>' . htmlspecialchars($result['body']) . '</pre></section>';
+    echo '<section class="card"><h1>Erreur</h1><p>Réponse JSON invalide.</p><pre>' . h($result['body']) . '</pre></section>';
     require __DIR__ . '/../templates/footer.php';
     exit;
 }
@@ -41,12 +43,12 @@ if (!is_array($data)) {
             <tbody>
             <?php foreach ($data as $plat): ?>
                 <tr>
-                    <td><?= htmlspecialchars($plat['nom'] ?? $plat['name'] ?? '—') ?></td>
-                    <td><?= htmlspecialchars($plat['description'] ?? '—') ?></td>
+                    <td><?= h((string)($plat['nom'] ?? $plat['name'] ?? '—')) ?></td>
+                    <td><?= h((string)($plat['description'] ?? '—')) ?></td>
                     <td>
                         <?php
                         $prix = $plat['prix'] ?? $plat['price'] ?? null;
-                        echo $prix === null ? '—' : htmlspecialchars((string)$prix) . ' €';
+                        echo $prix === null ? '—' : h((string)$prix) . ' €';
                         ?>
                     </td>
                 </tr>

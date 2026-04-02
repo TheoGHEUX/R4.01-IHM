@@ -16,14 +16,14 @@ $isHome = ($currentScript === 'index.php');
 <body>
 <header class="site-header">
     <div class="site-header__inner">
-        <a class="site-brand" href="/index.php">
+        <div class="site-brand" href="/index.php">
             <img
                     class="site-brand__logo"
                     src="<?= htmlspecialchars($logoPath, ENT_QUOTES, 'UTF-8') ?>"
                     alt="Logo"
             />
             <span class="site-brand__title"><?= htmlspecialchars($pageTitle, ENT_QUOTES, 'UTF-8') ?></span>
-        </a>
+        </div>
 
         <?php if (!$isHome): ?>
             <a class="btn btn--ghost site-header__back" href="/index.php">← Retour</a>
