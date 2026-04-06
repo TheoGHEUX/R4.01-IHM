@@ -80,3 +80,30 @@ function http_put_json(string $url, array $payload, int $timeout = 3): array {
         'error' => $error,
     ];
 }
+
+function http_delete_json(string $url, int $timeout = 3): array {
+    $ch = curl_init($url);
+
+    curl_setopt_array($ch, [
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_TIMEOUT => $timeout,
+        CURLOPT_CONNECTTIMEOUT => $timeout,
+        CURLOPT_CUSTOMREQUEST => 'DELETE',
+        CURLOPT_HTTPHEADER => [
+            'Accept: application/json',
+        ],
+    ]);
+
+    $body = curl_exec($ch);
+    $error = curl_error($ch);
+    $httpCode = (int)curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+
+    return [
+        'ok' => ($body !== false),
+        'http_code' => $httpCode,
+        'body' => $body === false ? '' : $body,
+        'error' => $error,
+    ];
+}

@@ -6,24 +6,24 @@ require __DIR__ . '/../templates/header.php';
 
 $config = require __DIR__ . '/../src/config.php';
 require __DIR__ . '/../src/http.php';
-
 require_once __DIR__ . '/../src/Support/helpers.php';
+require_once __DIR__ . '/../src/Api/JsonApi.php';
 
 $baseUrl = $config['services']['plats-utilisateurs'];
 $timeout = $config['http']['timeout'];
 
 $url = $baseUrl . '/plats';
-$result = http_get($url, $timeout);
+$res = api_get_json($url, $timeout);
 
-if (!$result['ok']) {
-    echo '<section class="card"><h1>Erreur</h1><p>Erreur cURL: ' . h($result['error']) . '</p></section>';
+if (!$res['ok']) {
+    echo '<section class="card"><h1>Erreur</h1><p>Erreur API: ' . h($res['error']) . '</p></section>';
     require __DIR__ . '/../templates/footer.php';
     exit;
 }
 
-$data = json_decode($result['body'], true);
+$data = $res['data'];
 if (!is_array($data)) {
-    echo '<section class="card"><h1>Erreur</h1><p>Réponse JSON invalide.</p><pre>' . h($result['body']) . '</pre></section>';
+    echo '<section class="card"><h1>Erreur</h1><p>Réponse JSON invalide.</p><pre>' . h($res['raw'] ?? '') . '</pre></section>';
     require __DIR__ . '/../templates/footer.php';
     exit;
 }

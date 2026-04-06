@@ -9,6 +9,7 @@ $config = require __DIR__ . '/../src/config.php';
 require_once __DIR__ . '/../src/Support/helpers.php';
 require_once __DIR__ . '/../src/http.php';
 require_once __DIR__ . '/../src/Domain/Menu/MenuService.php';
+require_once __DIR__ . '/../src/Api/JsonApi.php';
 
 $timeout = $config['http']['timeout'];
 
@@ -18,8 +19,8 @@ $platsUsersBaseUrl = $config['services']['plats-utilisateurs'];
 /**
  * Chargement des données du formulaire
  */
-$platsRes = http_get($platsUsersBaseUrl . '/plats', $timeout);
-$usersRes = http_get($platsUsersBaseUrl . '/utilisateurs', $timeout);
+$platsRes = api_get_json($platsUsersBaseUrl . '/plats', $timeout);
+$usersRes = api_get_json($platsUsersBaseUrl . '/utilisateurs', $timeout);
 
 if (!$platsRes['ok'] || !$usersRes['ok']) {
     echo '<section class="card"><h1>Erreur</h1><p>Impossible de charger les données nécessaires.</p></section>';
@@ -27,8 +28,8 @@ if (!$platsRes['ok'] || !$usersRes['ok']) {
     exit;
 }
 
-$plats = json_decode($platsRes['body'], true);
-$utilisateurs = json_decode($usersRes['body'], true);
+$plats = $platsRes['data'];
+$utilisateurs = $usersRes['data'];
 
 if (!is_array($plats) || !is_array($utilisateurs)) {
     echo '<section class="card"><h1>Erreur</h1><p>Réponse JSON invalide depuis un service.</p></section>';
@@ -71,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'prixTotal' => $prixTotal,
         ];
 
-        $postRes = http_post_json($menusBaseUrl . '/menus', $payload, $timeout);
+        $postRes = api_post_json($menusBaseUrl . '/menus', $payload, $timeout);
 
         if (!$postRes['ok']) {
             $errors[] = 'Erreur réseau lors de la création du menu: ' . $postRes['error'];

@@ -9,6 +9,7 @@ $config = require __DIR__ . '/../src/config.php';
 require_once __DIR__ . '/../src/Support/helpers.php';
 require_once __DIR__ . '/../src/http.php';
 require_once __DIR__ . '/../src/Domain/Menu/MenuService.php';
+require_once __DIR__ . '/../src/Api/JsonApi.php';
 
 $timeout = $config['http']['timeout'];
 $menusBaseUrl = $config['services']['menus'];
@@ -22,10 +23,10 @@ if ($id === '') {
 }
 
 /** Menu **/
-$menuRes = http_get($menusBaseUrl . '/menus/' . rawurlencode($id), $timeout);
+$menuRes = api_get_json($menusBaseUrl . '/menus/' . rawurlencode($id), $timeout);
 
 if (!$menuRes['ok']) {
-    echo '<section class="card"><h1>Erreur</h1><p>Erreur réseau (menu): ' . h($menuRes['error']) . '</p></section>';
+    echo '<section class="card"><h1>Erreur</h1><p>Erreur API (menu): ' . h($menuRes['error']) . '</p></section>';
     require __DIR__ . '/../templates/footer.php';
     exit;
 }
@@ -35,7 +36,7 @@ if ($menuRes['http_code'] < 200 || $menuRes['http_code'] >= 300) {
     exit;
 }
 
-$menu = json_decode($menuRes['body'], true);
+$menu = $menuRes['data'];
 if (!is_array($menu)) {
     echo '<section class="card"><h1>Erreur</h1><p>Réponse JSON invalide (menu).</p></section>';
     require __DIR__ . '/../templates/footer.php';
@@ -43,8 +44,8 @@ if (!is_array($menu)) {
 }
 
 /** Plats + utilisateurs **/
-$platsRes = http_get($platsUsersBaseUrl . '/plats', $timeout);
-$usersRes = http_get($platsUsersBaseUrl . '/utilisateurs', $timeout);
+$platsRes = api_get_json($platsUsersBaseUrl . '/plats', $timeout);
+$usersRes = api_get_json($platsUsersBaseUrl . '/utilisateurs', $timeout);
 
 if (!$platsRes['ok'] || !$usersRes['ok']) {
     echo '<section class="card"><h1>Erreur</h1><p>Impossible de charger les données nécessaires.</p></section>';
@@ -52,8 +53,8 @@ if (!$platsRes['ok'] || !$usersRes['ok']) {
     exit;
 }
 
-$plats = json_decode($platsRes['body'], true);
-$utilisateurs = json_decode($usersRes['body'], true);
+$plats = $platsRes['data'];
+$utilisateurs = $usersRes['data'];
 
 if (!is_array($plats) || !is_array($utilisateurs)) {
     echo '<section class="card"><h1>Erreur</h1><p>Réponse JSON invalide depuis un service.</p></section>';
@@ -74,7 +75,21 @@ if (isset($menu['plats']) && is_array($menu['plats'])) {
     }
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+// Handle deletion via POST action=delete
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && (string)($_POST['action'] ?? '') === 'delete') {
+    // appel DELETE via api_delete_json
+    $delRes = api_delete_json($menusBaseUrl . '/menus/' . rawurlencode($id), $timeout);
+    if (!$delRes['ok']) {
+        $errors[] = 'Erreur réseau lors de la suppression: ' . $delRes['error'];
+    } elseif ($delRes['http_code'] < 200 || $delRes['http_code'] >= 300) {
+        $errors[] = 'Erreur HTTP ' . $delRes['http_code'] . ' lors de la suppression.';
+    } else {
+        header('Location: /menus.php');
+        exit;
+    }
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && (string)($_POST['action'] ?? '') !== 'delete') {
     $nom = trim((string)($_POST['nom'] ?? ''));
     $createurId = (string)($_POST['createurId'] ?? '');
     $selectedPlatIds = $_POST['platIds'] ?? [];
@@ -103,7 +118,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'prixTotal' => $prixTotal,
         ];
 
-        $putRes = http_put_json($menusBaseUrl . '/menus/' . rawurlencode($id), $payload, $timeout);
+        $putRes = api_put_json($menusBaseUrl . '/menus/' . rawurlencode($id), $payload, $timeout);
 
         if (!$putRes['ok']) {
             $errors[] = 'Erreur réseau lors de la modification: ' . $putRes['error'];
@@ -131,7 +146,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php endif; ?>
 
         <form method="post" action="/menu-edit.php?id=<?= h($id) ?>" class="form">
-            <div class="form__row">
+            <div class="form__Row">
                 <label for="nom">Nom du menu</label>
                 <input id="nom" name="nom" type="text" value="<?= h($nom) ?>" required />
             </div>
@@ -172,6 +187,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <button class="btn" type="submit">Enregistrer</button>
                 <a class="btn btn--ghost" href="/menus.php">Annuler</a>
             </div>
+        </form>
+
+        <!-- Formulaire séparé pour la suppression -->
+        <form method="post" action="/menu-edit.php?id=<?= h($id) ?>" style="margin-top:10px;">
+            <input type="hidden" name="action" value="delete" />
+            <button class="btn btn--danger" type="submit" onclick="return confirm('Confirmer la suppression de ce menu ?');">Supprimer</button>
         </form>
     </section>
 

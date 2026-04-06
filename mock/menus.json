@@ -119,22 +119,6 @@
       ],
       "prixTotal": 25,
       "id": "Gm-vhNk1eU8"
-    },
-    {
-      "nom": "Nouveau Menu",
-      "createurId": 1,
-      "createurNom": "Dupont",
-      "dateCreation": "2026-04-02",
-      "dateMiseAJour": "2026-04-02",
-      "plats": [
-        {
-          "id": 6,
-          "nom": "Poulet rôti",
-          "prix": 11
-        }
-      ],
-      "prixTotal": 11,
-      "id": "3ij2rtedgeM"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
