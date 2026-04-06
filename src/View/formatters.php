@@ -15,3 +15,20 @@ function format_plats(array $plats): string
     }
     return htmlspecialchars(implode(' ; ', $items), ENT_QUOTES, 'UTF-8');
 }
+
+
+function format_lignes(array $lignes): string
+{
+    if ($lignes === []) return '—';
+    $items = [];
+    foreach ($lignes as $l) {
+        if (!is_array($l)) continue;
+        $nom = $l['menuNom'] ?? ('Menu #' . ($l['menuId'] ?? '—'));
+        $qte = $l['quantite'] ?? '—';
+        $prix = $l['prixLigne'] ?? null;
+        $chunk = $nom . ' x' . $qte;
+        if ($prix !== null) $chunk .= ' (' . $prix . ' €)';
+        $items[] = $chunk;
+    }
+    return htmlspecialchars(implode(' ; ', $items), ENT_QUOTES, 'UTF-8');
+}

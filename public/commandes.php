@@ -35,23 +35,7 @@ if (!is_array($commandes)) {
     exit;
 }
 
-/**
- * TODO (propre): déplacer dans src/View/formatters.php
- */
-function format_lignes(array $lignes): string {
-    if ($lignes === []) return '—';
-    $items = [];
-    foreach ($lignes as $l) {
-        if (!is_array($l)) continue;
-        $nom = $l['menuNom'] ?? ('Menu #' . ($l['menuId'] ?? '—'));
-        $qte = $l['quantite'] ?? '—';
-        $prix = $l['prixLigne'] ?? null;
-        $chunk = $nom . ' x' . $qte;
-        if ($prix !== null) $chunk .= ' (' . $prix . ' €)';
-        $items[] = $chunk;
-    }
-    return htmlspecialchars(implode(' ; ', $items), ENT_QUOTES, 'UTF-8');
-}
+// La fonction format_lignes a été déplacée vers src/View/formatters.php
 
 ?>
 

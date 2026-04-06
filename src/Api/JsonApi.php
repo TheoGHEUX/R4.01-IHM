@@ -19,7 +19,6 @@ function api_post_json(string $url, array $payload, int $timeout): array {
     if (!$res['ok']) {
         return ['ok' => false, 'error' => $res['error'], 'http_code' => $res['http_code'], 'data' => null, 'raw' => $res['body'] ?? null];
     }
-    // Try decode body if present
     $data = null;
     if (is_string($res['body']) && trim($res['body']) !== '') {
         $decoded = json_decode($res['body'], true);
