@@ -23,7 +23,8 @@ function format_lignes(array $lignes): string
     $items = [];
     foreach ($lignes as $l) {
         if (!is_array($l)) continue;
-        $nom = $l['menuNom'] ?? ('Menu #' . ($l['menuId'] ?? '—'));
+        $menuId = (string)($l['menuId'] ?? '—');
+        $nom = $l['menuNom'] ?? ('Menu #' . $menuId);
         $qte = $l['quantite'] ?? '—';
         $prix = $l['prixLigne'] ?? null;
         $chunk = $nom . ' x' . $qte;

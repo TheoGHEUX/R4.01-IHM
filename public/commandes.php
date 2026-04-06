@@ -35,9 +35,9 @@ if (!is_array($commandes)) {
     exit;
 }
 
-// La fonction format_lignes a été déplacée vers src/View/formatters.php
-
 ?>
+
+    <a class="btn" href="/commande-create.php">+ Créer une commande</a>
 
     <section class="card">
         <h1>Commandes</h1>
@@ -57,7 +57,6 @@ if (!is_array($commandes)) {
             <tbody>
             <?php foreach ($commandes as $cmd): ?>
                 <tr>
-                    <td><?= h((string)($cmd['id'] ?? '—')) ?></td>
                     <td><?= h((string)($cmd['abonneId'] ?? '—')) ?></td>
                     <td><?= h((string)($cmd['dateCommande'] ?? '—')) ?></td>
                     <td><?= h((string)($cmd['dateLivraison'] ?? '—')) ?></td>
