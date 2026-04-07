@@ -2,8 +2,9 @@
 $pageTitle = $pageTitle ?? "IHM – Livraison de repas";
 $logoPath  = $logoPath  ?? "/assets/logo.png"; // mets ton image ici
 
-$currentScript = basename($_SERVER['SCRIPT_NAME'] ?? '');
-$isHome = ($currentScript === 'index.php');
+$route = $_GET['route'] ?? null;
+$currentPath = is_string($route) && $route !== '' ? rawurldecode($route) : (string)(parse_url((string)($_SERVER['REQUEST_URI'] ?? '/'), PHP_URL_PATH) ?? '/');
+$isHome = ($currentPath === '/' || $currentPath === '/index.php');
 ?>
 <!doctype html>
 <html lang="fr">
@@ -16,7 +17,7 @@ $isHome = ($currentScript === 'index.php');
 <body>
 <header class="site-header">
     <div class="site-header__inner">
-        <div class="site-brand" href="/index.php">
+        <div class="site-brand" href="<?= htmlspecialchars(route_url('/'), ENT_QUOTES, 'UTF-8') ?>">
             <img
                     class="site-brand__logo"
                     src="<?= htmlspecialchars($logoPath, ENT_QUOTES, 'UTF-8') ?>"
@@ -26,7 +27,7 @@ $isHome = ($currentScript === 'index.php');
         </div>
 
         <?php if (!$isHome): ?>
-            <a class="btn btn--ghost site-header__back" href="/index.php">← Retour</a>
+            <a class="btn btn--ghost site-header__back" href="<?= htmlspecialchars(route_url('/'), ENT_QUOTES, 'UTF-8') ?>">← Retour</a>
         <?php endif; ?>
     </div>
 </header>

@@ -4,27 +4,17 @@
       "id": "1",
       "nom": "Menu Provence Modifié",
       "createurId": 2,
-      "createurNom": "Martin",
+      "createurNom": "Jean Martin",
       "dateCreation": "2025-03-10",
-      "dateMiseAJour": "2026-04-02",
+      "dateMiseAJour": "2026-04-07",
       "plats": [
-        {
-          "id": 3,
-          "nom": "Gratin dauphinois",
-          "prix": 9
-        },
-        {
-          "id": 4,
-          "nom": "Bouillabaisse",
-          "prix": 15.5
-        },
         {
           "id": 7,
           "nom": "Mousse au chocolat",
           "prix": 5
         }
       ],
-      "prixTotal": 29.5
+      "prixTotal": 5
     },
     {
       "id": "2",
@@ -93,32 +83,6 @@
         }
       ],
       "prixTotal": 17
-    },
-    {
-      "nom": "Menu Tasty Crousty",
-      "createurId": 3,
-      "createurNom": "Bernard",
-      "dateCreation": "2026-04-02",
-      "dateMiseAJour": "2026-04-02",
-      "plats": [
-        {
-          "id": 1,
-          "nom": "Salade niçoise",
-          "prix": 8.5
-        },
-        {
-          "id": 6,
-          "nom": "Poulet rôti",
-          "prix": 11
-        },
-        {
-          "id": 8,
-          "nom": "Tarte tropézienne",
-          "prix": 5.5
-        }
-      ],
-      "prixTotal": 25,
-      "id": "Gm-vhNk1eU8"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

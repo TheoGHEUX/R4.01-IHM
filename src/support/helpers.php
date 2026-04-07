@@ -9,6 +9,20 @@ function today(): string
     return date('Y-m-d');
 }
 
+function route_url(string $path): string
+{
+    $normalized = '/' . ltrim($path, '/');
+    if ($normalized === '/index.php') {
+        return '/index.php';
+    }
+
+    if ($normalized === '/') {
+        return '/index.php';
+    }
+
+    return '/index.php?route=' . rawurlencode($normalized);
+}
+
 if (!function_exists('array_is_list')) {
     function array_is_list(array $array): bool
     {
