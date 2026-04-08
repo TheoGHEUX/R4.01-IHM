@@ -2,6 +2,19 @@
 
 declare(strict_types=1);
 
+/**
+ * Contrôleur des commandes.
+ *
+ * Responsabilités :
+ * - Afficher la liste des commandes.
+ * - Afficher le formulaire de création de commande et traiter sa soumission.
+ *
+ * Dépendances :
+ * - {@see Renderer}
+ * - {@see ListCommandesUseCase}
+ * - {@see LoadCommandeFormDataUseCase} : charge utilisateurs + menus pour alimenter le formulaire
+ * - {@see CreateCommandeUseCase} : validation + construction des lignes + appel API
+ */
 class CommandesController
 {
     private Renderer $renderer;
@@ -9,6 +22,12 @@ class CommandesController
     private LoadCommandeFormDataUseCase $loadCommandeFormDataUseCase;
     private CreateCommandeUseCase $createCommandeUseCase;
 
+    /**
+     * @param Renderer $renderer Service de rendu.
+     * @param ListCommandesUseCase $listCommandesUseCase Usecase listant les commandes.
+     * @param LoadCommandeFormDataUseCase $loadCommandeFormDataUseCase Usecase de chargement des données de formulaire.
+     * @param CreateCommandeUseCase $createCommandeUseCase Usecase de création d'une commande.
+     */
     public function __construct(
         Renderer $renderer,
         ListCommandesUseCase $listCommandesUseCase,
@@ -21,6 +40,12 @@ class CommandesController
         $this->createCommandeUseCase = $createCommandeUseCase;
     }
 
+    /**
+     * Affiche la liste des commandes.
+     *
+     * @param Request $request Requête HTTP.
+     * @return void
+     */
     public function index(Request $request): void
     {
         $result = $this->listCommandesUseCase->execute();
@@ -35,6 +60,14 @@ class CommandesController
         ]);
     }
 
+    /**
+     * Affiche le formulaire de création d'une commande.
+     *
+     * - GET /commandes/create
+     *
+     * @param Request $request Requête HTTP.
+     * @return void
+     */
     public function createForm(Request $request): void
     {
         $formData = $this->loadCommandeFormDataUseCase->execute();
@@ -56,6 +89,16 @@ class CommandesController
         ]);
     }
 
+    /**
+     * Traite la soumission du formulaire de création.g
+     *
+     * Comportement :
+     * - en cas de succès : redirection vers /commandes
+     * - sinon : ré-affiche le formulaire avec erreurs et valeurs "sticky"
+     *
+     * @param Request $request Requête HTTP.
+     * @return void
+     */
     public function store(Request $request): void
     {
         $abonneId = (string)$request->post('abonneId', '');
@@ -93,4 +136,3 @@ class CommandesController
         ]);
     }
 }
-

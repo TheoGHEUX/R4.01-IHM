@@ -2,6 +2,28 @@
 
 declare(strict_types=1);
 
+/**
+ * Contrôleur des menus.
+ *
+ * Responsabilités :
+ * - Afficher la liste des menus.
+ * - Afficher le formulaire de création et traiter sa soumission.
+ * - Afficher le formulaire d'édition et traiter sa soumission.
+ * - Supprimer un menu.
+ *
+ * Le contrôleur ne contient pas de logique métier :
+ * - il délègue la validation et la construction des payloads aux UseCases/Domains.
+ * - il choisit uniquement quelle vue rendre et quand rediriger.
+ *
+ * Dépendances :
+ * - {@see Renderer}
+ * - {@see ListMenusUseCase}
+ * - {@see LoadMenuFormDataUseCase}
+ * - {@see CreateMenuUseCase}
+ * - {@see GetMenuUseCase}
+ * - {@see UpdateMenuUseCase}
+ * - {@see DeleteMenuUseCase}
+ */
 class MenusController
 {
     private Renderer $renderer;
@@ -12,6 +34,15 @@ class MenusController
     private UpdateMenuUseCase $updateMenuUseCase;
     private DeleteMenuUseCase $deleteMenuUseCase;
 
+    /**
+     * @param Renderer $renderer Service de rendu.
+     * @param ListMenusUseCase $listMenusUseCase Usecase de listing.
+     * @param LoadMenuFormDataUseCase $loadMenuFormDataUseCase Usecase de chargement des données de formulaire (plats/utilisateurs).
+     * @param CreateMenuUseCase $createMenuUseCase Usecase de création.
+     * @param GetMenuUseCase $getMenuUseCase Usecase de récupération d'un menu.
+     * @param UpdateMenuUseCase $updateMenuUseCase Usecase de mise à jour.
+     * @param DeleteMenuUseCase $deleteMenuUseCase Usecase de suppression.
+     */
     public function __construct(
         Renderer $renderer,
         ListMenusUseCase $listMenusUseCase,
@@ -30,6 +61,12 @@ class MenusController
         $this->deleteMenuUseCase = $deleteMenuUseCase;
     }
 
+    /**
+     * Affiche la liste des menus.
+     *
+     * @param Request $request Requête HTTP.
+     * @return void
+     */
     public function index(Request $request): void
     {
         $result = $this->listMenusUseCase->execute();
@@ -44,6 +81,12 @@ class MenusController
         ]);
     }
 
+    /**
+     * Affiche le formulaire de création d'un menu.
+     *
+     * @param Request $request Requête HTTP.
+     * @return void
+     */
     public function createForm(Request $request): void
     {
         $formData = $this->loadMenuFormDataUseCase->execute();
@@ -65,6 +108,16 @@ class MenusController
         ]);
     }
 
+    /**
+     * Traite la soumission du formulaire de création.
+     *
+     * Comportement :
+     * - en cas de succès : redirection vers /menus
+     * - sinon : ré-affiche le formulaire avec erreurs et valeurs "sticky"
+     *
+     * @param Request $request Requête HTTP.
+     * @return void
+     */
     public function store(Request $request): void
     {
         $nom = trim((string)$request->post('nom', ''));
@@ -93,6 +146,13 @@ class MenusController
         ]);
     }
 
+    /**
+     * Affiche le formulaire d'édition d'un menu existant.
+     *
+     * @param Request $request Requête HTTP.
+     * @param string $id Identifiant du menu.
+     * @return void
+     */
     public function editForm(Request $request, string $id): void
     {
         $menuRes = $this->getMenuUseCase->execute($id);
@@ -131,6 +191,13 @@ class MenusController
         ]);
     }
 
+    /**
+     * Traite la soumission du formulaire d'édition.
+     *
+     * @param Request $request Requête HTTP.
+     * @param string $id Identifiant du menu.
+     * @return void
+     */
     public function update(Request $request, string $id): void
     {
         $nom = trim((string)$request->post('nom', ''));
@@ -159,6 +226,13 @@ class MenusController
         ]);
     }
 
+    /**
+     * Supprime un menu.
+     *
+     * @param Request $request Requête HTTP.
+     * @param string $id Identifiant du menu.
+     * @return void
+     */
     public function delete(Request $request, string $id): void
     {
         $result = $this->deleteMenuUseCase->execute($id);
@@ -172,4 +246,3 @@ class MenusController
         ]);
     }
 }
-

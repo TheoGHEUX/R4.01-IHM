@@ -2,8 +2,20 @@
 
 declare(strict_types=1);
 
+/**
+ * Domaine "Commandes" (logique métier et règles de validation).
+ *
+ * Cette classe regroupe des fonctions utilisées par les UseCases liés
+ * aux commandes.
+ */
 class CommandesDomain
 {
+    /**
+     * Normalise une collection de commandes provenant de l'API.
+     *
+     * @param mixed $payload Données décodées depuis JSON.
+     * @return array<int, array>|null Liste de commandes si le format est reconnu, sinon null.
+     */
     public static function normalizeCollection($payload): ?array
     {
         if (!is_array($payload)) {
@@ -18,6 +30,14 @@ class CommandesDomain
         return is_array($commandes) ? $commandes : null;
     }
 
+    /**
+     * Valide les champs principaux d'une commande (hors lignes).
+     *
+     * @param string $abonneId Identifiant de l'abonné (attendu numérique dans l'IHM).
+     * @param string $adresseLivraison Adresse de livraison.
+     * @param string $dateLivraison Date de livraison (format libre côté IHM).
+     * @return string[] Liste des messages d'erreur (vide si OK).
+     */
     public static function validateInput(string $abonneId, string $adresseLivraison, string $dateLivraison): array
     {
         $errors = [];
@@ -37,6 +57,12 @@ class CommandesDomain
         return $errors;
     }
 
+    /**
+     * Construit un index de menus par identifiant.
+     *
+     * @param array<int, array> $menus Collection de menus.
+     * @return array<string, array> Tableau associatif [menuId => menuArray].
+     */
     public static function indexMenusById(array $menus): array
     {
         $byId = [];
@@ -49,6 +75,22 @@ class CommandesDomain
         return $byId;
     }
 
+    /**
+     * Construit les lignes de commande et calcule le total à partir des sélections du formulaire.
+     *
+     * @param array<string, array> $menusById Index des menus par id.
+     * @param array<int, mixed> $selectedMenuIds IDs de menus postés (string attendue).
+     * @param array<int, mixed> $quantites Quantités postées (string/int attendue).
+     *
+     * @return array{
+     *   0: array<int, array{menuId:string, menuNom:string, quantite:int, prixUnitaire:float, prixLigne:float}>,
+     *   1: float,
+     *   2: string[]
+     * }
+     *   - [0] lignes
+     *   - [1] prix total arrondi
+     *   - [2] erreurs
+     */
     public static function buildLignesAndTotal(array $menusById, array $selectedMenuIds, array $quantites): array
     {
         $errors = [];
@@ -107,4 +149,3 @@ class CommandesDomain
         return [$lignes, round($total, 2), $errors];
     }
 }
-

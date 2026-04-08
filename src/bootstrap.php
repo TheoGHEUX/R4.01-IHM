@@ -7,7 +7,10 @@ require_once __DIR__ . '/presentation/gui/view_helpers/formatters.php';
 
 $loadFiles = null;
 $loadFiles = static function (string $dir) use (&$loadFiles): void {
-    $entries = scandir($dir) ?: [];
+    $entries = scandir($dir);
+    if ($entries === false) {
+        return;
+    }
     sort($entries);
 
     foreach ($entries as $entry) {
@@ -16,10 +19,13 @@ $loadFiles = static function (string $dir) use (&$loadFiles): void {
         }
 
         $path = $dir . DIRECTORY_SEPARATOR . $entry;
+
         if (is_dir($path)) {
             $normalizedPath = str_replace('\\', '/', $path);
             $guiBase = str_replace('\\', '/', __DIR__ . '/presentation/gui');
-            if (str_starts_with($normalizedPath, $guiBase)) {
+
+            // Compatible PHP 7+ (évite str_starts_with)
+            if (strpos($normalizedPath, $guiBase) === 0) {
                 continue;
             }
 
