@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-class MenusGateway
+class MenusGateway implements MenusPort
 {
     private ApiClient $client;
     private string $baseUrl;
@@ -40,4 +40,3 @@ class MenusGateway
         return $this->client->delete($this->baseUrl . '/menus/' . rawurlencode($id), $this->timeout);
     }
 }
-

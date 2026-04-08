@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-class CommandesGateway
+class CommandesGateway implements CommandesPort
 {
     private ApiClient $client;
     private string $baseUrl;
@@ -25,4 +25,3 @@ class CommandesGateway
         return $this->client->post($this->baseUrl . '/commandes', $payload, $this->timeout);
     }
 }
-

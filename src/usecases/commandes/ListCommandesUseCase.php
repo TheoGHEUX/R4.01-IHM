@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 class ListCommandesUseCase
 {
-    private CommandesGateway $commandesGateway;
+    private CommandesPort $commandesGateway;
 
-    public function __construct(CommandesGateway $commandesGateway)
+    public function __construct(CommandesPort $commandesGateway)
     {
         $this->commandesGateway = $commandesGateway;
     }
@@ -26,4 +26,3 @@ class ListCommandesUseCase
         return ['ok' => true, 'commandes' => $commandes];
     }
 }
-

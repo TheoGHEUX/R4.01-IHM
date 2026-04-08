@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 class LoadCommandeFormDataUseCase
 {
-    private PlatsGateway $platsGateway;
-    private MenusGateway $menusGateway;
+    private PlatsPort $platsGateway;
+    private MenusPort $menusGateway;
 
-    public function __construct(PlatsGateway $platsGateway, MenusGateway $menusGateway)
+    public function __construct(PlatsPort $platsGateway, MenusPort $menusGateway)
     {
         $this->platsGateway = $platsGateway;
         $this->menusGateway = $menusGateway;
@@ -32,4 +32,3 @@ class LoadCommandeFormDataUseCase
         return ['ok' => true, 'utilisateurs' => $utilisateurs, 'menus' => $menus];
     }
 }
-

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 class CreateCommandeUseCase
 {
-    private CommandesGateway $commandesGateway;
+    private CommandesPort $commandesGateway;
     private LoadCommandeFormDataUseCase $loadCommandeFormDataUseCase;
 
-    public function __construct(CommandesGateway $commandesGateway, LoadCommandeFormDataUseCase $loadCommandeFormDataUseCase)
+    public function __construct(CommandesPort $commandesGateway, LoadCommandeFormDataUseCase $loadCommandeFormDataUseCase)
     {
         $this->commandesGateway = $commandesGateway;
         $this->loadCommandeFormDataUseCase = $loadCommandeFormDataUseCase;
@@ -32,6 +32,8 @@ class CreateCommandeUseCase
         }
 
         $menusById = CommandesDomain::indexMenusById($formData['menus']);
+
+        // IMPORTANT: ici, il faudra aussi que buildLignesAndTotal accepte des IDs string (si ce n'est pas déjà le cas)
         [$lignes, $prixTotal, $ligneErrors] = CommandesDomain::buildLignesAndTotal($menusById, $selectedMenuIds, $quantites);
 
         if ($ligneErrors) {
@@ -59,4 +61,3 @@ class CreateCommandeUseCase
         return ['ok' => true];
     }
 }
-

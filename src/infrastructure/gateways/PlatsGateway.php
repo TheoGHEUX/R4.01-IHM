@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-class PlatsGateway
+class PlatsGateway implements PlatsPort
 {
     private ApiClient $client;
     private string $baseUrl;
@@ -25,4 +25,3 @@ class PlatsGateway
         return $this->client->get($this->baseUrl . '/utilisateurs', $this->timeout);
     }
 }
-
