@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 class LoadCommandeFormDataUseCase
 {
-    private PlatsPort $platsGateway;
+    private PlatsInterface $platsGateway;
     private MenusInterface $menusGateway;
 
-    public function __construct(PlatsPort $platsGateway, MenusInterface $menusGateway)
+    public function __construct(PlatsInterface $platsGateway, MenusInterface $menusGateway)
     {
         $this->platsGateway = $platsGateway;
         $this->menusGateway = $menusGateway;
