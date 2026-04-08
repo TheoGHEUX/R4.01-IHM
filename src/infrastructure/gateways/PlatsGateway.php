@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-class PlatsGateway implements PlatsPort
+class PlatsGateway implements PlatsInterface
 {
     private ApiClient $client;
     private string $baseUrl;

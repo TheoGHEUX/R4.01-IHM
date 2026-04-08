@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-class CommandesGateway implements CommandesPort
+class CommandesGateway implements CommandesInterface
 {
     private ApiClient $client;
     private string $baseUrl;

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 class DeleteMenuUseCase
 {
-    private MenusGateway $menusGateway;
+    private MenusInterface $menusGateway;
 
-    public function __construct(MenusGateway $menusGateway)
+    public function __construct(MenusInterface $menusGateway)
     {
         $this->menusGateway = $menusGateway;
     }
@@ -29,4 +29,3 @@ class DeleteMenuUseCase
         return ['ok' => true];
     }
 }
-

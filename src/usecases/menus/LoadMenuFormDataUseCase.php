@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 class LoadMenuFormDataUseCase
 {
-    private PlatsGateway $platsGateway;
+    private PlatsInterface $platsGateway;
 
-    public function __construct(PlatsGateway $platsGateway)
+    public function __construct(PlatsInterface $platsGateway)
     {
         $this->platsGateway = $platsGateway;
     }
@@ -30,4 +30,3 @@ class LoadMenuFormDataUseCase
         return ['ok' => true, 'plats' => $plats, 'utilisateurs' => $utilisateurs];
     }
 }
-

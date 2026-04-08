@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-interface CommandesPort
+interface CommandesInterface
 {
     public function listCommandes(): array;
 

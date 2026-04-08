@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-interface PlatsPort
+interface PlatsInterface
 {
     public function listPlats(): array;
 

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 class CreateCommandeUseCase
 {
-    private CommandesPort $commandesGateway;
+    private CommandesInterface $commandesGateway;
     private LoadCommandeFormDataUseCase $loadCommandeFormDataUseCase;
 
-    public function __construct(CommandesPort $commandesGateway, LoadCommandeFormDataUseCase $loadCommandeFormDataUseCase)
+    public function __construct(CommandesInterface $commandesGateway, LoadCommandeFormDataUseCase $loadCommandeFormDataUseCase)
     {
         $this->commandesGateway = $commandesGateway;
         $this->loadCommandeFormDataUseCase = $loadCommandeFormDataUseCase;

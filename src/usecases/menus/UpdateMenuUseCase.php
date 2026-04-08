@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 class UpdateMenuUseCase
 {
-    private MenusGateway $menusGateway;
+    private MenusInterface $menusGateway;
     private LoadMenuFormDataUseCase $loadMenuFormDataUseCase;
     private GetMenuUseCase $getMenuUseCase;
 
     public function __construct(
-        MenusGateway $menusGateway,
+        MenusInterface          $menusGateway,
         LoadMenuFormDataUseCase $loadMenuFormDataUseCase,
-        GetMenuUseCase $getMenuUseCase
+        GetMenuUseCase          $getMenuUseCase
     ) {
         $this->menusGateway = $menusGateway;
         $this->loadMenuFormDataUseCase = $loadMenuFormDataUseCase;
@@ -69,4 +69,3 @@ class UpdateMenuUseCase
         return ['ok' => true];
     }
 }
-

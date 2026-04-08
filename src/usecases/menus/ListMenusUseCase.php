@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 class ListMenusUseCase
 {
-    private MenusGateway $menusGateway;
+    private MenusInterface $menusGateway;
 
-    public function __construct(MenusGateway $menusGateway)
+    public function __construct(MenusInterface $menusGateway)
     {
         $this->menusGateway = $menusGateway;
     }
@@ -26,4 +26,3 @@ class ListMenusUseCase
         return ['ok' => true, 'menus' => $menus];
     }
 }
-

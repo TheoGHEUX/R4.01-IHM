@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-class MenusGateway implements MenusPort
+class MenusGateway implements MenusInterface
 {
     private ApiClient $client;
     private string $baseUrl;
