@@ -1,4 +1,4 @@
-# R4.01-IHM
+# R4.01 - Composant : IHM
 
 Groupe : FABRE Alexis, GHEUX Théo, JACOB Alexandre, UYSUN Ali
 
