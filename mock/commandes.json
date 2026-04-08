@@ -1,7 +1,7 @@
 {
   "commandes": [
     {
-      "id": "1",
+      "id": 1,
       "abonneId": 3,
       "dateCommande": "2025-03-20T14:32:00",
       "adresseLivraison": "7 avenue du Prado, 13008 Marseille",
@@ -25,7 +25,7 @@
       "prixTotal": 77
     },
     {
-      "id": "2",
+      "id": 2,
       "abonneId": 1,
       "dateCommande": "2025-03-21T09:15:00",
       "adresseLivraison": "12 rue des Lilas, 13001 Marseille",
@@ -42,7 +42,7 @@
       "prixTotal": 48
     },
     {
-      "id": "3",
+      "id": 3,
       "abonneId": 4,
       "dateCommande": "2025-03-22T18:00:00",
       "adresseLivraison": "45 boulevard Michelet, 13009 Marseille",
@@ -64,89 +64,6 @@
         }
       ],
       "prixTotal": 62
-    },
-    {
-      "abonneId": 4,
-      "dateCommande": "2026-04-06",
-      "dateLivraison": "2026-04-06",
-      "adresseLivraison": "Aix",
-      "lignes": [
-        {
-          "menuId": 2,
-          "menuNom": "Menu Léger",
-          "quantite": 6,
-          "prixUnitaire": 16,
-          "prixLigne": 96
-        },
-        {
-          "menuId": 4,
-          "menuNom": "Menu Traditionnel",
-          "quantite": 5,
-          "prixUnitaire": 17,
-          "prixLigne": 85
-        },
-        {
-          "menuId": 3,
-          "menuNom": "Menu Gourmand",
-          "quantite": 7,
-          "prixUnitaire": 32,
-          "prixLigne": 224
-        }
-      ],
-      "prixTotal": 405,
-      "id": "jmjUCsUuOIw"
-    },
-    {
-      "abonneId": 1,
-      "dateCommande": "2026-04-06",
-      "dateLivraison": "2026-04-06",
-      "adresseLivraison": "Aix",
-      "lignes": [
-        {
-          "menuId": 1,
-          "menuNom": "Menu Provence Modifié",
-          "quantite": 1,
-          "prixUnitaire": 29.5,
-          "prixLigne": 29.5
-        }
-      ],
-      "prixTotal": 29.5,
-      "id": "eo4muzxh2qs"
-    },
-    {
-      "abonneId": 2,
-      "dateCommande": "2026-04-06",
-      "dateLivraison": "2026-04-06",
-      "adresseLivraison": "aix",
-      "lignes": [
-        {
-          "menuId": "Gm-vhNk1eU8",
-          "menuNom": "Menu Tasty Crousty",
-          "quantite": 2,
-          "prixUnitaire": 25,
-          "prixLigne": 50
-        }
-      ],
-      "prixTotal": 50,
-      "id": "MxuaapdEmVY"
-    },
-    {
-      "abonneId": 1,
-      "dateCommande": "2026-04-08",
-      "dateLivraison": "2026-04-08",
-      "adresseLivraison": "Aix en p",
-      "lignes": [
-        {
-          "menuId": "1",
-          "menuNom": "Menu Provence Modifié",
-          "quantite": 1,
-          "prixUnitaire": 5,
-          "prixLigne": 5
-        }
-      ],
-      "prixTotal": 5,
-      "id": "CwbYs9WZzss"
     }
-  ],
-  "$schema": "./node_modules/json-server/schema.json"
+  ]
 }
