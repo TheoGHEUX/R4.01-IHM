@@ -2,12 +2,21 @@
 
 declare(strict_types=1);
 
+/**
+ * Gateway HTTP pour le microservice "commandes".
+ *
+ */
 class CommandesGateway implements CommandesInterface
 {
     private ApiClient $client;
     private string $baseUrl;
     private int $timeout;
 
+    /**
+     * @param ApiClient $client Client HTTP bas niveau.
+     * @param string $baseUrl Base URL du microservice (ex: http://localhost:3005).
+     * @param int $timeout Timeout (secondes).
+     */
     public function __construct(ApiClient $client, string $baseUrl, int $timeout)
     {
         $this->client = $client;
@@ -15,11 +24,17 @@ class CommandesGateway implements CommandesInterface
         $this->timeout = $timeout;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function listCommandes(): array
     {
         return $this->client->get($this->baseUrl . '/commandes', $this->timeout);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function createCommande(array $payload): array
     {
         return $this->client->post($this->baseUrl . '/commandes', $payload, $this->timeout);
