@@ -2,6 +2,17 @@
 
 declare(strict_types=1);
 
+/**
+ * Bootstrap applicatif.
+ *
+ * Responsabilités :
+ * - Charger les helpers globaux ({@see src/support/helpers.php})
+ * - Charger les helpers utilisés par les vues
+ * - Charger automatiquement (require_once) les classes PHP du projet
+ *   (domain, infrastructure, usecases, presentation, controllers)
+ *
+ */
+
 require_once __DIR__ . '/support/helpers.php';
 require_once __DIR__ . '/presentation/gui/view_helpers/formatters.php';
 
